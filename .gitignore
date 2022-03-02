@@ -1,0 +1,18 @@
+# ignore .classpath
+.classpath
+
+# ignore .project
+.project
+
+# ignore .settings
+.settings/
+
+# ignore target
+target
+
+# ignore bin
+bin
+
+.idea/
+*.iml
+*.orig
