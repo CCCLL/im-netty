@@ -6,12 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 import com.cjl.im.client.handler.LoginResponsePacketHandler;
 import com.cjl.im.client.handler.MessageResponsePacketHandler;
+import com.cjl.im.client.instruction.InstructionManager;
+import com.cjl.im.client.instruction.LoginInstruction;
 import com.cjl.im.codec.PacketDecoder;
 import com.cjl.im.codec.PacketEncoder;
 import com.cjl.im.codec.Spliter;
-import com.cjl.im.client.handler.ClientHandler;
-import com.cjl.im.dto.LoginRequestPacket;
-import com.cjl.im.dto.MessageRequestPacket;
 import com.cjl.im.server.session.SessionUtil;
 
 import io.netty.bootstrap.Bootstrap;
@@ -22,7 +21,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.Attribute;
 
 public class NettyClient {
     private static final int MAX_RETRY = 5;
@@ -72,29 +70,13 @@ public class NettyClient {
 
     private static void startConsoleThread(Channel channel) {
         new Thread(() -> {
-            Scanner sc = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             while (!Thread.interrupted()) {
                 if (SessionUtil.INSTANCE.hasLogin(channel)){
-                    System.out.println("请输入对方名字和要发送的信息: ");
-                    String toUserId = sc.next();
-                    String message = sc.next();
-                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                    Attribute<String> attr = channel.attr(SessionUtil.ATTRIBUTE_KEY);
-                    messageRequestPacket.setUserNameFrom(attr.get());
-                    messageRequestPacket.setUserNameTo(toUserId);
-                    messageRequestPacket.setMessage(message);
-                    channel.writeAndFlush(messageRequestPacket);
+                    System.out.println("请输入操作指令: ");
+                    InstructionManager.INSTANCE.handler(scanner,scanner.next(),channel);
                 }else {
-                    System.out.println("请登录，输入用户名: ");
-                    String line = sc.nextLine();
-                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                    loginRequestPacket.setUserName(line);
-                    channel.writeAndFlush(loginRequestPacket);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    InstructionManager.INSTANCE.handler(scanner, LoginInstruction.INSTRUCTION_SYMBOL,channel);
                 }
 
             }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.netty.channel.Channel;
-import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
 public class SessionUtil {
