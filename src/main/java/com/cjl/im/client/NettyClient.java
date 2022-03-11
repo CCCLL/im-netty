@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import com.cjl.im.client.handler.GroupResponsePacketHandler;
 import com.cjl.im.client.handler.LoginResponsePacketHandler;
 import com.cjl.im.client.handler.MessageResponsePacketHandler;
 import com.cjl.im.client.instruction.InstructionManager;
@@ -42,6 +43,7 @@ public class NettyClient {
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponsePacketHandler());
                         ch.pipeline().addLast(new MessageResponsePacketHandler());
+                        ch.pipeline().addLast(new GroupResponsePacketHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -74,7 +76,7 @@ public class NettyClient {
             while (!Thread.interrupted()) {
                 if (SessionUtil.INSTANCE.hasLogin(channel)){
                     System.out.println("请输入操作指令: ");
-                    InstructionManager.INSTANCE.handler(scanner,scanner.next(),channel);
+                    InstructionManager.INSTANCE.handler(scanner,scanner.nextLine(),channel);
                 }else {
                     InstructionManager.INSTANCE.handler(scanner, LoginInstruction.INSTRUCTION_SYMBOL,channel);
                 }

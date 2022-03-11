@@ -19,6 +19,10 @@ public class LoginResponsePacketHandler extends SimpleChannelInboundHandler<Logi
         }else {
             System.out.println("登陆失败");
         }
+    }
 
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("连接断开");
     }
 }

@@ -13,6 +13,7 @@ public class InstructionManager {
     static {
         instructions.put(LoginInstruction.INSTRUCTION_SYMBOL, new LoginInstruction());
         instructions.put(SendInstruction.INSTRUCTION_SYMBOL, new SendInstruction());
+        instructions.put(CreateGroupInstruction.INSTRUCTION_SYMBOL, new CreateGroupInstruction());
     }
 
     public void handler(Scanner scanner, String instructionSymbol, Channel channel) {

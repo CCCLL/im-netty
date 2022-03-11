@@ -26,8 +26,8 @@ public class PacketCodec {
         packetTypeMap.put(Command.MESSAGE_RESPONSE.getValue(), MessageResponsePacket.class);
 //        packetTypeMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
 //        packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
-//        packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
-//        packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(Command.GROUP_REQUEST.getValue(), GroupRequestPacket.class);
+        packetTypeMap.put(Command.GROUP_RESPONSE.getValue(), GroupResponsePacket.class);
 //        packetTypeMap.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
 //        packetTypeMap.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
 //        packetTypeMap.put(QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);

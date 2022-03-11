@@ -4,7 +4,9 @@ package com.cjl.im.server;
 import com.cjl.im.codec.PacketDecoder;
 import com.cjl.im.codec.PacketEncoder;
 import com.cjl.im.codec.Spliter;
-import com.cjl.im.server.handler.LoginRequestHandler;
+import com.cjl.im.server.handler.AuthHandler;
+import com.cjl.im.server.handler.GroupRequestPacketHandler;
+import com.cjl.im.server.handler.LoginRequestPacketHandler;
 import com.cjl.im.server.handler.MessageRequestPacketHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -28,8 +30,10 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new LoginRequestPacketHandler());
+                        ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestPacketHandler());
+                        ch.pipeline().addLast(new GroupRequestPacketHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
